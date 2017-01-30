@@ -1,0 +1,15 @@
+Start a new project
+ionic start projectname template(eg: sidemenu) --v2 --ts
+
+Run locally
+ionic serve
+
+Upload to cloud
+<create apps.ionic.io account>
+ionic upload
+<login if not already logged in>
+
+
+Install app on device
+<plug-in device that has developer mode enabled>
+ionic run android (or ios)
