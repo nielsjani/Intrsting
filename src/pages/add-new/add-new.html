@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Add an Intrsthing</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="addnewForm" (ngSubmit)="submitForm()">
+    <ion-list radio-group formControlName="type">
+      <ion-list-header>Type</ion-list-header>
+      <ion-item>
+        <ion-label>Book</ion-label>
+        <ion-radio value="BOOK"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Blog/Article</ion-label>
+        <ion-radio value="BLOG"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Video/Talk</ion-label>
+        <ion-radio value="VIDEO"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Site</ion-label>
+        <ion-radio value="SITE"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Online course</ion-label>
+        <ion-radio value="ONLINE_COURSE"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <ion-label color="primary">Name</ion-label>
+      <ion-input type="text" formControlName="name" placeholder="Learn Spring in 15 mins"></ion-input>
+    </ion-item>
+    <p *ngIf="addnewForm.controls['name'].errors?.required && !addnewForm.controls['name'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+
+
+    <button ion-button type="submit" [disabled]="!addnewForm.valid">Submit</button>
+  </form>
+</ion-content>

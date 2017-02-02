@@ -13,3 +13,6 @@ ionic upload
 Install app on device
 <plug-in device that has developer mode enabled>
 ionic run android (or ios)
+
+Generate page
+ionic g page MyPageName

@@ -1,0 +1,15 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>{{getTitle()}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="intrsthing">
+  <p>{{intrsthing.name}}</p>
+  <p>{{intrsthing.type}}</p>
+  </div>
+</ion-content>
