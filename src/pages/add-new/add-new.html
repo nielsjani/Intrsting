@@ -24,8 +24,8 @@
         <ion-radio value="VIDEO"></ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>Site</ion-label>
-        <ion-radio value="SITE"></ion-radio>
+        <ion-label>Podcast</ion-label>
+        <ion-radio value="PODCAST"></ion-radio>
       </ion-item>
       <ion-item>
         <ion-label>Online course</ion-label>
@@ -37,8 +37,24 @@
       <ion-label color="primary">Name</ion-label>
       <ion-input type="text" formControlName="name" placeholder="Learn Spring in 15 mins"></ion-input>
     </ion-item>
-    <p *ngIf="addnewForm.controls['name'].errors?.required && !addnewForm.controls['name'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+    <p *ngIf="addnewForm.controls['name'].errors?.notEmpty && !addnewForm.controls['name'].pristine" style="padding-left: 10%;color:red">This field is required</p>
 
+    <ion-item>
+      <ion-label color="primary">Description</ion-label>
+      <ion-input type="text" formControlName="description" placeholder="You'll become a master in Spring Data, Spring Integration and Spring MVC without breaking a sweat"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary">Website</ion-label>
+      <ion-input type="text" formControlName="url" placeholder="Place to buy/read/watch/download/... Intrsthings"></ion-input>
+    </ion-item>
+    <p *ngIf="addnewForm.controls['url'].errors?.notEmpty && !addnewForm.controls['url'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+    <ion-item *ngIf="addnewForm.controls['type'].value === 'BOOK'">
+      <ion-label color="primary">Author</ion-label>
+      <ion-input type="text" formControlName="author" placeholder="Sir Writer McPenFace"></ion-input>
+    </ion-item>
+    <p *ngIf="addnewForm.controls['author'].errors?.requiredIf && !addnewForm.controls['author'].pristine" style="padding-left: 10%;color:red">This field is required</p>
 
 
     <button ion-button type="submit" [disabled]="!addnewForm.valid">Submit</button>

@@ -6,13 +6,17 @@ import {AddNewPage} from "../pages/add-new/add-new";
 import {HttpModule} from "@angular/http";
 import {IntrstingService} from "./service/intrsting.service";
 import {IntrstingDetailPage} from "../pages/intrsting-detail/intrsting-detail";
+import {NotEmptyValidator} from "./validator/NotEmptyValidator";
+import {RequiredIfValidator} from "./validator/RequiredIfValidator";
 
 @NgModule({
   declarations: [
     MyApp,
     SearchPage,
     AddNewPage,
-    IntrstingDetailPage
+    IntrstingDetailPage,
+    NotEmptyValidator,
+    RequiredIfValidator
   ],
   imports: [
     IonicModule.forRoot(MyApp)

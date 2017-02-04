@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import {FormBuilder, Validators, FormControl} from "@angular/forms";
+import {Component} from "@angular/core";
+import {NavController, NavParams} from "ionic-angular";
+import {FormBuilder, FormControl} from "@angular/forms";
 import {IntrstingService} from "../../app/service/intrsting.service";
 import {IntrstingDetailPage} from "../intrsting-detail/intrsting-detail";
+import {notEmpty} from "../../app/validator/NotEmptyValidator";
+import {requiredIf} from "../../app/validator/RequiredIfValidator";
 
 @Component({
   selector: 'page-add-new',
@@ -16,11 +18,14 @@ export class AddNewPage {
               private navParams: NavParams,
               private formBuilder: FormBuilder,
               private intrstingService: IntrstingService) {
-    this.nameField = new FormControl('', Validators.required);
+    this.nameField = new FormControl('', notEmpty);
     this.addnewForm = this.formBuilder.group({
       type: new FormControl("BOOK"),
-      name: this.nameField
-    });
+      name: this.nameField,
+      url: new FormControl("", notEmpty),
+      description: new FormControl(""),
+      author: new FormControl("")
+    },{validator: requiredIf(this.isTypeBook)});
   }
 
   ionViewDidLoad() {
@@ -32,4 +37,11 @@ export class AddNewPage {
       .subscribe(res => this.navCtrl.push(IntrstingDetailPage, res.json().name));
   }
 
+  private isTypeBook(){
+    return true;
+
+    // return (group: FormGroup) => {
+    //   return group.controls['type'].value === 'BOOK'
+    // }
+  }
 }
