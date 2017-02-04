@@ -19,16 +19,16 @@ export class RequiredIfValidator {
 
 }
 
-export function requiredIf(requiredIfFunction: ()=>boolean) {
+export function requiredIf(requiredIfFunction: (formGroup: FormGroup)=>boolean, fieldUnderValidation: string) {
   return (formGroup: FormGroup) => {
-    if (formGroup.controls['type'].value === 'BOOK' && notEmpty(formGroup.controls['author']) !== null) {
-      formGroup.controls['author'].setErrors({requiredIf: true});
+    if (!formGroup.controls[fieldUnderValidation].pristine && requiredIfFunction(formGroup)) {
+      formGroup.controls[fieldUnderValidation].setErrors({requiredIf: true});
       return {
         requiredIf: {valid: false}
       }
     }
-    if(formGroup.controls['author'].errors !== null){
-      formGroup.controls['author'].updateValueAndValidity();
+    if(formGroup.controls[fieldUnderValidation].errors !== null){
+      formGroup.controls[fieldUnderValidation].updateValueAndValidity();
     }
     return null;
   }

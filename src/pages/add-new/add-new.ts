@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {NavController, NavParams} from "ionic-angular";
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {IntrstingService} from "../../app/service/intrsting.service";
 import {IntrstingDetailPage} from "../intrsting-detail/intrsting-detail";
 import {notEmpty} from "../../app/validator/NotEmptyValidator";
@@ -25,7 +25,7 @@ export class AddNewPage {
       url: new FormControl("", notEmpty),
       description: new FormControl(""),
       author: new FormControl("")
-    },{validator: requiredIf(this.isTypeBook)});
+    },{validator: requiredIf(this.isTypeBookAndAuthorFilledIn, 'author')});
   }
 
   ionViewDidLoad() {
@@ -37,11 +37,7 @@ export class AddNewPage {
       .subscribe(res => this.navCtrl.push(IntrstingDetailPage, res.json().name));
   }
 
-  private isTypeBook(){
-    return true;
-
-    // return (group: FormGroup) => {
-    //   return group.controls['type'].value === 'BOOK'
-    // }
+  private isTypeBookAndAuthorFilledIn(group: FormGroup){
+      return group.controls['type'].value === 'BOOK' && notEmpty(group.controls['author']) !== null;
   }
 }
