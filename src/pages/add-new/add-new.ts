@@ -20,12 +20,24 @@ export class AddNewPage {
               private intrstingService: IntrstingService) {
     this.nameField = new FormControl('', notEmpty);
     this.addnewForm = this.formBuilder.group({
-      type: new FormControl("BOOK"),
-      name: this.nameField,
-      url: new FormControl("", notEmpty),
-      description: new FormControl(""),
-      author: new FormControl("")
-    },{validator: requiredIf(this.isTypeBookAndAuthorFilledIn, 'author')});
+        type: new FormControl("BOOK"),
+        name: this.nameField,
+        url: new FormControl("", notEmpty),
+        description: new FormControl(""),
+        author: new FormControl(""),
+        numberofpages: new FormControl("")
+      },
+      {
+        validator: this.extraValidatorAggregator()
+      }
+    );
+  }
+
+  private extraValidatorAggregator() {
+    return (fg: FormGroup) => {
+      requiredIf(this.isTypeBookAndAuthorFilledIn, 'author')(fg);
+      requiredIf(this.isTypeBookAndNumberOfPagesFilledIn, 'numberofpages')(fg);
+    }
   }
 
   ionViewDidLoad() {
@@ -37,7 +49,11 @@ export class AddNewPage {
       .subscribe(res => this.navCtrl.push(IntrstingDetailPage, res.json().name));
   }
 
-  private isTypeBookAndAuthorFilledIn(group: FormGroup){
-      return group.controls['type'].value === 'BOOK' && notEmpty(group.controls['author']) !== null;
+  private isTypeBookAndAuthorFilledIn(group: FormGroup) {
+    return group.controls['type'].value === 'BOOK' && notEmpty(group.controls['author']) !== null;
+  }
+
+  private isTypeBookAndNumberOfPagesFilledIn(group: FormGroup) {
+    return group.controls['type'].value === 'BOOK' && notEmpty(group.controls['numberofpages']) !== null;
   }
 }

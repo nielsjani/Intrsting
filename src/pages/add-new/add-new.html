@@ -56,6 +56,12 @@
     </ion-item>
     <p *ngIf="addnewForm.controls['author'].errors?.requiredIf && !addnewForm.controls['author'].pristine" style="padding-left: 10%;color:red">This field is required</p>
 
+    <ion-item *ngIf="addnewForm.controls['type'].value === 'BOOK'">
+      <ion-label color="primary">Number of pages</ion-label>
+      <ion-input type="text" formControlName="numberofpages" placeholder="9001"></ion-input>
+    </ion-item>
+    <p *ngIf="addnewForm.controls['numberofpages'].errors?.requiredIf && !addnewForm.controls['numberofpages'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
 
     <button ion-button type="submit" [disabled]="!addnewForm.valid">Submit</button>
   </form>
