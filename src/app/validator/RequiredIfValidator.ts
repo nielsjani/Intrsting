@@ -1,6 +1,5 @@
-import {Directive} from '@angular/core';
-import {FormControl, NG_VALIDATORS, FormGroup, AbstractControl} from '@angular/forms';
-import {notEmpty} from "./NotEmptyValidator";
+import {Directive} from "@angular/core";
+import {NG_VALIDATORS, FormGroup} from "@angular/forms";
 
 @Directive({
   selector: '[requiredIf][ngModel]', // ? Is this an AND relation?

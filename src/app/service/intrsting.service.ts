@@ -16,6 +16,11 @@ export class IntrstingService {
   }
 
   getIntrsthing(id: string): Observable<Response>{
-    return this.http.get(`${this.baseUrl}/intrsthings/${id}.json`)
+    return this.http.get(`${this.baseUrl}/intrsthings/${id}.json`);
+  }
+
+  //TODO: add filter params
+  search(): Observable<Response> {
+    return this.http.get(`${this.baseUrl}/intrsthings.json`);
   }
 }

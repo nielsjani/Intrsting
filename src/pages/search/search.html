@@ -13,22 +13,46 @@
   <ion-card>
     <ion-card-header>Find something Intrsting</ion-card-header>
     <ion-card-content>
-      <button ion-button full (click)="findIntrsting()">
-        Search
-        <ion-icon name="search"></ion-icon>
-      </button>
+      <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+        <intrsting-types [form]="searchForm" [fcn]="'type'"></intrsting-types>
+        <button ion-button full>
+          <ion-row>
+            <ion-col width-80>Search</ion-col>
+            <ion-col width-20>
+              <ion-icon name="search"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </button>
+      </form>
     </ion-card-content>
   </ion-card>
 
   <ion-list>
+    <!--&& alreadySearch === true-->
     <ion-item text-wrap *ngIf="!results.length">
-      <p>We didn't find anything Intrsting that matches your criteria. Maybe you know of an Intrsting thing we don't yet? If only you'd add it...</p>
-        <button ion-button round full (click)="goToAddNewPage()">Okay, Mr. App</button>
+      <p>We didn't find anything Intrsting that matches your criteria. Maybe you know of an Intrsting thing we don't
+        yet? If only you'd add it...</p>
+      <button ion-button round full (click)="goToAddNewPage()">Okay, Mr. App</button>
     </ion-item>
     <!--Loop over results after search-->
+    <ion-item text-wrap *ngFor="let result of results">
+      <ion-card (click)="goToDetailPage(result.id)">
+        <ion-card-header style="white-space: normal;">
+          <ion-row>
+            <ion-col width-80>
+              {{result.name}}
+            </ion-col>
+            <ion-col width-20>
+              <ion-icon style="font-size: 60px;" [name]="mapTypeToIcon(result.type)"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-card-header>
+        <ion-card-content *ngIf="result.description">
+          <p>{{descriptionCutOff(result.description)}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
   </ion-list>
-
-
 
 
 </ion-content>

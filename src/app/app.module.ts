@@ -8,6 +8,7 @@ import {IntrstingService} from "./service/intrsting.service";
 import {IntrstingDetailPage} from "../pages/intrsting-detail/intrsting-detail";
 import {NotEmptyValidator} from "./validator/NotEmptyValidator";
 import {RequiredIfValidator} from "./validator/RequiredIfValidator";
+import {IntrstingTypesComponent} from "./components/intrsting-types/intrsting-types.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {RequiredIfValidator} from "./validator/RequiredIfValidator";
     AddNewPage,
     IntrstingDetailPage,
     NotEmptyValidator,
-    RequiredIfValidator
+    RequiredIfValidator,
+    IntrstingTypesComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)

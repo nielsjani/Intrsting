@@ -1,0 +1,25 @@
+<div [formGroup]="form">
+  <ion-list radio-group [formControlName]="fcn">
+    <ion-list-header>Type</ion-list-header>
+    <ion-item>
+      <ion-label>Book</ion-label>
+      <ion-radio value="BOOK"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Blog/Article</ion-label>
+      <ion-radio value="BLOG"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Video/Talk</ion-label>
+      <ion-radio value="VIDEO"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Podcast</ion-label>
+      <ion-radio value="PODCAST"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Online course</ion-label>
+      <ion-radio value="ONLINE_COURSE"></ion-radio>
+    </ion-item>
+  </ion-list>
+</div>
