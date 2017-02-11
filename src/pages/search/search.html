@@ -14,6 +14,15 @@
     <ion-card-header>Find something Intrsting</ion-card-header>
     <ion-card-content>
       <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+          <ion-row>
+            <ion-col width-80>
+              <ion-input type="text" formControlName="name" placeholder="Name containing..."></ion-input>
+            </ion-col>
+            <ion-col width-20>
+              <ion-icon name="return-left" (click)="clearName()" style="font-size: 30px;"></ion-icon>
+            </ion-col>
+          </ion-row>
+
         <intrsting-types [form]="searchForm" [fcn]="'type'"></intrsting-types>
         <button ion-button full>
           <ion-row>
@@ -27,14 +36,14 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
+  <ion-list no-lines>
     <!--&& alreadySearch === true-->
     <ion-item text-wrap *ngIf="!results.length">
       <p>We didn't find anything Intrsting that matches your criteria. Maybe you know of an Intrsting thing we don't
         yet? If only you'd add it...</p>
       <button ion-button round full (click)="goToAddNewPage()">Okay, Mr. App</button>
     </ion-item>
-    <!--Loop over results after search-->
+
     <ion-item text-wrap *ngFor="let result of results">
       <ion-card (click)="goToDetailPage(result.id)">
         <ion-card-header style="white-space: normal;">

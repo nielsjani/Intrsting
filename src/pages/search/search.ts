@@ -4,6 +4,7 @@ import {AddNewPage} from "../add-new/add-new";
 import {IntrstingService} from "../../app/service/intrsting.service";
 import {IntrstingDetailPage} from "../intrsting-detail/intrsting-detail";
 import {FormBuilder, FormControl} from "@angular/forms";
+import {IntrstingtypesMapper} from "../../app/class/intrstingtypes-mapper.class";
 
 @Component({
   selector: 'page-search',
@@ -16,7 +17,8 @@ export class SearchPage {
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private intrstingService: IntrstingService, private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
-        type: new FormControl("BOOK"),
+        name: new FormControl(""),
+        type: new FormControl(""),
       }
     );
   }
@@ -51,22 +53,11 @@ export class SearchPage {
   }
 
   mapTypeToIcon(type: string) {
-    if (type === "BOOK") {
-      return "book";
-    }
-    if (type === "BLOG") {
-      return "chatbubbles";
-    }
-    if (type === "VIDEO") {
-      return "videocam";
-    }
-    if (type === "PODCAST") {
-      return "musical-notes";
-    }
-    if (type === "ONLINE_COURSE") {
-      return "bulb";
-    }
-    return "qr-scanner";
+    return new IntrstingtypesMapper().toIcon(type);
+  }
+
+  clearName() {
+    this.searchForm.controls["name"].reset();
   }
 
   submitSearchForm() {

@@ -1,4 +1,5 @@
 import {Input, Component} from "@angular/core";
+import {IntrstingtypesMapper} from "../../class/intrstingtypes-mapper.class";
 
 @Component({
   selector: 'intrsting-types',
@@ -10,5 +11,33 @@ export class IntrstingTypesComponent {
   @Input()
   fcn;
 
-//  TODO: find a way to pass in formControlName as a param
+  open: boolean = false;
+
+  openList() {
+    this.open = true;
+  }
+
+  closeList() {
+    this.open = false;
+  }
+
+  getChosenType() {
+    if(this.form.controls[this.fcn].value) {
+      let typeLabel = new IntrstingtypesMapper().toLabel(this.form.controls[this.fcn].value);
+      return "Type: " + typeLabel;
+    }
+    return "Pick a type";
+  }
+
+  selectionMade() {
+    //Yeah, really...
+    return this.form.controls[this.fcn].value !== undefined
+      && this.form.controls[this.fcn].value !== null
+      && this.form.controls[this.fcn].value.trim() !== "";
+  }
+
+  clearSelection() {
+    this.form.controls[this.fcn].reset();
+    this.closeList();
+  }
 }
