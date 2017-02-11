@@ -1,31 +1,32 @@
-<button ion-button outline full (click)="openList()" *ngIf="!open">
-  {{getChosenType()}}
-</button>
-<div [formGroup]="form" *ngIf="open">
-  <ion-list radio-group (ionChange)="closeList()" [formControlName]="fcn" no-lines>
-    <ion-list-header>Type</ion-list-header>
-    <ion-item>
-      <ion-label>Book</ion-label>
-      <ion-radio value="BOOK"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Blog/Article</ion-label>
-      <ion-radio value="BLOG"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Video/Talk</ion-label>
-      <ion-radio value="VIDEO"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Podcast</ion-label>
-      <ion-radio value="PODCAST"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Online course</ion-label>
-      <ion-radio value="ONLINE_COURSE"></ion-radio>
-    </ion-item>
-  </ion-list>
-  <button ion-button (click)="clearSelection()" *ngIf="selectionMade()">
-    Clear selection
-  </button>
-</div>
+<button-input-toggle [toggleButtonText]="getChosenType()"
+                     [closeListener]="!editingType"
+                     (startedEditing)="toggleTypeEdit()">
+  <div [formGroup]="form">
+    <ion-list radio-group (ionChange)="toggleTypeEdit()" [formControlName]="fcn" no-lines>
+      <ion-list-header>Type</ion-list-header>
+      <ion-item>
+        <ion-label>Book</ion-label>
+        <ion-radio value="BOOK"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Blog/Article</ion-label>
+        <ion-radio value="BLOG"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Video/Talk</ion-label>
+        <ion-radio value="VIDEO"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Podcast</ion-label>
+        <ion-radio value="PODCAST"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Online course</ion-label>
+        <ion-radio value="ONLINE_COURSE"></ion-radio>
+      </ion-item>
+    </ion-list>
+    <button ion-button (click)="clearSelection()" *ngIf="selectionMade()">
+      Clear selection
+    </button>
+  </div>
+</button-input-toggle>

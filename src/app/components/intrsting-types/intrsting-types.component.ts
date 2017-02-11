@@ -11,22 +11,14 @@ export class IntrstingTypesComponent {
   @Input()
   fcn;
 
-  open: boolean = false;
-
-  openList() {
-    this.open = true;
-  }
-
-  closeList() {
-    this.open = false;
-  }
+  editingType: boolean = false;
 
   getChosenType() {
     if(this.form.controls[this.fcn].value) {
       let typeLabel = new IntrstingtypesMapper().toLabel(this.form.controls[this.fcn].value);
-      return "Type: " + typeLabel;
+      return "With type: " + typeLabel;
     }
-    return "Pick a type";
+    return "Who has type...";
   }
 
   selectionMade() {
@@ -38,6 +30,10 @@ export class IntrstingTypesComponent {
 
   clearSelection() {
     this.form.controls[this.fcn].reset();
-    this.closeList();
+    this.editingType = false;
+  }
+
+  toggleTypeEdit() {
+    this.editingType = !this.editingType;
   }
 }

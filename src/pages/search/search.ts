@@ -67,7 +67,7 @@ export class SearchPage {
 
   getNameButtonText() {
     let nameValue = this.searchForm.controls["name"].value;
-    return nameValue ? "Name: " + nameValue : "Name contains...";
+    return nameValue ? "With name: " + nameValue : "Whose name contains...";
   }
 
   submitSearchForm() {
