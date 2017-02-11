@@ -14,14 +14,19 @@
     <ion-card-header>Find something Intrsting</ion-card-header>
     <ion-card-content>
       <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+        <button-input-toggle [toggleButtonText]="getNameButtonText()" [closeListener]="!editingName" (startedEditing)="toggleNameEdit()">
           <ion-row>
             <ion-col width-80>
               <ion-input type="text" formControlName="name" placeholder="Name containing..."></ion-input>
             </ion-col>
-            <ion-col width-20>
+            <ion-col width-10>
+              <ion-icon name="checkmark" (click)="toggleNameEdit()" style="font-size: 30px;"></ion-icon>
+            </ion-col>
+            <ion-col width-10>
               <ion-icon name="return-left" (click)="clearName()" style="font-size: 30px;"></ion-icon>
             </ion-col>
           </ion-row>
+        </button-input-toggle>
 
         <intrsting-types [form]="searchForm" [fcn]="'type'"></intrsting-types>
         <button ion-button full>

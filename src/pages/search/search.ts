@@ -14,6 +14,7 @@ export class SearchPage {
 
   results: any[] = [];
   searchForm;
+  editingName: boolean = false;
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private intrstingService: IntrstingService, private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
@@ -58,6 +59,15 @@ export class SearchPage {
 
   clearName() {
     this.searchForm.controls["name"].reset();
+  }
+
+  toggleNameEdit() {
+    this.editingName = !this.editingName;
+  }
+
+  getNameButtonText() {
+    let nameValue = this.searchForm.controls["name"].value;
+    return nameValue ? "Name: " + nameValue : "Name contains...";
   }
 
   submitSearchForm() {

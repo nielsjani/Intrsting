@@ -1,4 +1,4 @@
-<button ion-button outline (click)="openList()" *ngIf="!open">
+<button ion-button outline full (click)="openList()" *ngIf="!open">
   {{getChosenType()}}
 </button>
 <div [formGroup]="form" *ngIf="open">

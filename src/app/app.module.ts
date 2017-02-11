@@ -9,6 +9,7 @@ import {IntrstingDetailPage} from "../pages/intrsting-detail/intrsting-detail";
 import {NotEmptyValidator} from "./validator/NotEmptyValidator";
 import {RequiredIfValidator} from "./validator/RequiredIfValidator";
 import {IntrstingTypesComponent} from "./components/intrsting-types/intrsting-types.component";
+import {ButtonInputToggleComponent} from "./components/button-input-toggle/button-input-toggle.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {IntrstingTypesComponent} from "./components/intrsting-types/intrsting-ty
     IntrstingDetailPage,
     NotEmptyValidator,
     RequiredIfValidator,
-    IntrstingTypesComponent
+    IntrstingTypesComponent,
+    ButtonInputToggleComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
