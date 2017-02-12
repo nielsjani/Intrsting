@@ -11,6 +11,8 @@ export class ButtonInputToggleComponent {
   toggleButtonText: string;
   @Input()
   closeListener: string;
+  @Input()
+  buttonFull: string;
   @Output()
   startedEditing= new EventEmitter();
 
@@ -31,6 +33,13 @@ export class ButtonInputToggleComponent {
 
   toggleClosed() {
     this.open = false;
+  }
+
+  isButtonFull() {
+    if(!this.buttonFull){
+      return true;
+    }
+    return this.buttonFull.toLowerCase() !== "false";
   }
 
 }

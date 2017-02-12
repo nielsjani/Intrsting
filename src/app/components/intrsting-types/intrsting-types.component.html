@@ -1,6 +1,7 @@
 <button-input-toggle [toggleButtonText]="getChosenType()"
                      [closeListener]="!editingType"
-                     (startedEditing)="toggleTypeEdit()">
+                     (startedEditing)="toggleTypeEdit()"
+                      [buttonFull]="isButtonFull()">
   <div [formGroup]="form">
     <ion-list radio-group (ionChange)="toggleTypeEdit()" [formControlName]="fcn" no-lines>
       <ion-list-header>Type</ion-list-header>

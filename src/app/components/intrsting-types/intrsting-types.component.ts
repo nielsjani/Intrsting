@@ -10,6 +10,8 @@ export class IntrstingTypesComponent {
   form;
   @Input()
   fcn;
+  @Input()
+  buttonFull;
 
   editingType: boolean = false;
 
@@ -35,5 +37,12 @@ export class IntrstingTypesComponent {
 
   toggleTypeEdit() {
     this.editingType = !this.editingType;
+  }
+
+  isButtonFull() {
+    if(!this.buttonFull){
+      return "true";
+    }
+    return this.buttonFull.toLowerCase();
   }
 }
