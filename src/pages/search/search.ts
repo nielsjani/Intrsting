@@ -15,6 +15,7 @@ export class SearchPage {
   results: any[] = [];
   searchForm;
   editingName: boolean = false;
+  searchedAtLeastOnce: boolean = false;
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private intrstingService: IntrstingService, private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
@@ -28,14 +29,16 @@ export class SearchPage {
     console.log('ionViewDidLoad SearchPage');
   }
 
-  private mapToIntrsthings(rawIntrsthingCollection: any) {
+  private mapToIntrsthings(rawIntrsthingCollection: any): any[] {
+    let mappedResults = [];
     for (let intrsthingId in rawIntrsthingCollection) {
       if (rawIntrsthingCollection.hasOwnProperty(intrsthingId)) {
         let intrsthing = rawIntrsthingCollection[intrsthingId];
         intrsthing.id = intrsthingId;
-        this.results.push(intrsthing);
+        mappedResults.push(intrsthing);
       }
     }
+    return mappedResults;
   }
 
   goToAddNewPage() {
@@ -74,8 +77,25 @@ export class SearchPage {
     this.intrstingService.search()
       .subscribe(response => {
         let objectWithKeys = response.json();
-        this.mapToIntrsthings(objectWithKeys);
+        this.results = this.mapAndFilter(objectWithKeys);
+        this.searchedAtLeastOnce = true;
       });
+  }
+
+  private mapAndFilter(objectWithKeys: any) {
+    return this.mapToIntrsthings(objectWithKeys)
+      .filter(item => {
+        let nameFilter = this.searchForm.controls["name"].value;
+        return !this.isFilteringOn(nameFilter) ? true : item.name.toLowerCase().indexOf(nameFilter.toLowerCase()) !== -1;
+      })
+      .filter(item => {
+        let typeFilter = this.searchForm.controls["type"].value;
+        return !this.isFilteringOn(typeFilter) ? true : item.type.toLowerCase() === typeFilter.toLowerCase();
+      });
+  }
+
+  private isFilteringOn(value: string): boolean {
+    return value !== undefined && value !== null && value.trim() !== "";
   }
 
 }

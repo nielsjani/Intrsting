@@ -42,8 +42,7 @@
   </ion-card>
 
   <ion-list no-lines>
-    <!--&& alreadySearch === true-->
-    <ion-item text-wrap *ngIf="!results.length">
+    <ion-item text-wrap *ngIf="!results.length && searchedAtLeastOnce">
       <p>We didn't find anything Intrsting that matches your criteria. Maybe you know of an Intrsting thing we don't
         yet? If only you'd add it...</p>
       <button ion-button round full (click)="goToAddNewPage()">Okay, Mr. App</button>
