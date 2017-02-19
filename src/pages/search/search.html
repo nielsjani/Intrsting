@@ -11,7 +11,14 @@
 
 <ion-content padding>
   <ion-card>
-    <ion-card-header>Find something Intrsting</ion-card-header>
+    <ion-card-header>
+      <ion-row>
+        <ion-col width-60>Find something Intrsting</ion-col>
+        <ion-col width-40>
+          <ion-icon style="color: #387ef5; float: right; font-size: 30px" name="add" (click)="goToAddNewPage()" ></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
     <ion-card-content>
       <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
         <button-input-toggle [toggleButtonText]="getNameButtonText()" [closeListener]="!editingName" (startedEditing)="toggleNameEdit()">

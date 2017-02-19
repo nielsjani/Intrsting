@@ -1,0 +1,63 @@
+<ion-card>
+  <ion-card-header>Reviews</ion-card-header>
+  <ion-card-content>
+    <!--TODO: if you've already reviewed this, allow to edit but dont allow to post another one-->
+    <button ion-button outline (click)="startReviewing()" *ngIf="!isReviewing">Write a review</button>
+
+    <form [formGroup]="reviewForm" (ngSubmit)="submitForm()" *ngIf="isReviewing">
+
+      <ion-row>
+        <ion-col width-20>
+          <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconName(1)" (click)="changeScore(1)" ></ion-icon>
+        </ion-col>
+        <ion-col width-20>
+          <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconName(2)" (click)="changeScore(2)" ></ion-icon>
+        </ion-col>
+        <ion-col width-20>
+          <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconName(3)" (click)="changeScore(3)"></ion-icon>
+        </ion-col>
+        <ion-col width-20>
+          <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconName(4)" (click)="changeScore(4)"></ion-icon>
+        </ion-col>
+        <ion-col width-20>
+          <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconName(5)" (click)="changeScore(5)"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-item>
+        <ion-label color="primary">Description</ion-label>
+        <ion-input type="text" formControlName="comment" placeholder="Author doesn't know what he's talking about"></ion-input>
+      </ion-item>
+
+      <button ion-button type="submit">Submit review</button>
+    </form>
+
+    <ion-list *ngIf="existingReviews.length > 0">
+      <ion-item>
+        <h2><b>Reviews by others</b></h2>
+      </ion-item>
+      <ion-item *ngFor="let existingReview of existingReviews">
+        <ion-row>
+          <ion-col width-20>
+            <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconNameForExisting(1,existingReview.rating)" ></ion-icon>
+          </ion-col>
+          <ion-col width-20>
+            <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconNameForExisting(2,existingReview.rating)" ></ion-icon>
+          </ion-col>
+          <ion-col width-20>
+            <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconNameForExisting(3,existingReview.rating)"></ion-icon>
+          </ion-col>
+          <ion-col width-20>
+            <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconNameForExisting(4,existingReview.rating)"></ion-icon>
+          </ion-col>
+          <ion-col width-20>
+            <ion-icon style="color: crimson;font-size: 30px" [name]="getStarIconNameForExisting(5,existingReview.rating)"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>Review by {{existingReview.rater}}</ion-row>
+        <ion-row style="color:grey" *ngIf="existingReview.comment">{{existingReview.comment}}</ion-row>
+      </ion-item>
+    </ion-list>
+
+  </ion-card-content>
+</ion-card>

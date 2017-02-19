@@ -6,21 +6,21 @@ import {Observable} from "rxjs";
 @Injectable()
 export class IntrstingService {
 
-  private baseUrl: string = "https://intrsting-b7c91.firebaseio.com";
+  public static baseUrl: string = "https://intrsting-b7c91.firebaseio.com";
+  private schemaName = "intrsthings";
 
   constructor(private http: Http) {
   }
 
   addIntrsthing(intrsting: Intrsting): Observable<Response> {
-    return this.http.post(`${this.baseUrl}/intrsthings.json`, JSON.stringify(intrsting));
+    return this.http.post(`${IntrstingService.baseUrl}/${this.schemaName}.json`, JSON.stringify(intrsting));
   }
 
   getIntrsthing(id: string): Observable<Response>{
-    return this.http.get(`${this.baseUrl}/intrsthings/${id}.json`);
+    return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}/${id}.json`);
   }
 
-  //TODO: add filter params
   search(): Observable<Response> {
-    return this.http.get(`${this.baseUrl}/intrsthings.json`);
+    return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}.json`);
   }
 }

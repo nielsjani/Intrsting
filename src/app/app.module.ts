@@ -10,6 +10,8 @@ import {NotEmptyValidator} from "./validator/NotEmptyValidator";
 import {RequiredIfValidator} from "./validator/RequiredIfValidator";
 import {IntrstingTypesComponent} from "./components/intrsting-types/intrsting-types.component";
 import {ButtonInputToggleComponent} from "./components/button-input-toggle/button-input-toggle.component";
+import {ReviewService} from "./service/review.service";
+import {ReviewComponent} from "./components/review/review.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import {ButtonInputToggleComponent} from "./components/button-input-toggle/butto
     NotEmptyValidator,
     RequiredIfValidator,
     IntrstingTypesComponent,
-    ButtonInputToggleComponent
+    ButtonInputToggleComponent,
+    ReviewComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -32,6 +35,6 @@ import {ButtonInputToggleComponent} from "./components/button-input-toggle/butto
     AddNewPage,
     IntrstingDetailPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, HttpModule, IntrstingService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, HttpModule, IntrstingService, ReviewService]
 })
 export class AppModule {}

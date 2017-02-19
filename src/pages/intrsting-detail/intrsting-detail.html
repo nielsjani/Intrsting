@@ -8,8 +8,32 @@
 
 
 <ion-content padding>
-  <div *ngIf="intrsthing">
-  <p>{{intrsthing.name}}</p>
-  <p>{{intrsthing.type}}</p>
-  </div>
+  <ion-card *ngIf="intrsthing">
+    <ion-item>
+      <ion-row>
+        <ion-col width-80>
+          <h2>{{intrsthing.name}}</h2>
+        </ion-col>
+        <ion-col width-20>
+          <ion-icon style="font-size: 60px;" [name]="mapTypeToIcon(intrsthing.type)"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-card-content>
+      <div *ngIf="intrsthing.type === 'BOOK'">
+        <p>Author: {{intrsthing.author}}</p>
+        <p *ngIf="intrsthing.numberofpages">{{intrsthing.numberofpages}} pages</p>
+      </div>
+      <p>More info: <a [href]="intrsthing.url" target="_blank">click here</a></p>
+      <ion-card *ngIf="intrsthing.description">
+        <ion-card-content style="background-color: lightgray">
+          <p><i>{{intrsthing.description}}</i></p>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <review-component *ngIf="intrsthing" [intrstingId]="intrsthing.id">
+  </review-component>
 </ion-content>
