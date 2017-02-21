@@ -28,6 +28,6 @@ export class MyApp {
   }
 
   goHome() {
-    this.nav.push(SearchPage);
+    this.nav.setRoot(SearchPage);
   }
 }

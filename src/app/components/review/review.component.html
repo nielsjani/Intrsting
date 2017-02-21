@@ -1,7 +1,6 @@
 <ion-card>
   <ion-card-header>Reviews</ion-card-header>
   <ion-card-content>
-    <!--TODO: if you've already reviewed this, allow to edit but dont allow to post another one-->
     <button ion-button outline (click)="startReviewing()" *ngIf="!isReviewing">{{getWriteReviewTitle()}}</button>
 
     <form [formGroup]="reviewForm" (ngSubmit)="submitForm()" *ngIf="isReviewing">

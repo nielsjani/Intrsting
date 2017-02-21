@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, NavOptions} from "ionic-angular";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {IntrstingService} from "../../app/service/intrsting.service";
 import {IntrstingDetailPage} from "../intrsting-detail/intrsting-detail";
@@ -46,7 +46,10 @@ export class AddNewPage {
 
   submitForm() {
     this.intrstingService.addIntrsthing(this.addnewForm.value)
-      .subscribe(res => this.navCtrl.push(IntrstingDetailPage, res.json().name));
+      .subscribe(res => {
+        this.navCtrl.remove(this.navCtrl.length()-1);
+        this.navCtrl.push(IntrstingDetailPage, res.json().name)
+      });
   }
 
   private isTypeBookAndAuthorFilledIn(group: FormGroup) {
