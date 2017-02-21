@@ -45,8 +45,13 @@ export class ReviewComponent {
   submitForm() {
     this.stopReviewing();
     let completeReview = this.enhanceReview(this.reviewForm.value);
-    this.reviewService.postReview(completeReview)
-      .subscribe(res => this.refreshReviewList());
+    if (this.userAlreadyReviewed()) {
+      this.reviewService.updateReview(completeReview, this.getReviewByUser().id)
+        .subscribe(res => this.refreshReviewList());
+    } else {
+      this.reviewService.postReview(completeReview)
+        .subscribe(res => this.refreshReviewList());
+    }
   }
 
   getStarIconName(iconScore: number) {
@@ -67,6 +72,29 @@ export class ReviewComponent {
   private refreshReviewList() {
     this.reviewService
       .getReviewsForIntrsthing(this.intrstingId)
-      .subscribe(reviews => this.existingReviews = reviews)
+      .subscribe(reviews => {
+        this.existingReviews = reviews;
+        if (this.userAlreadyReviewed()) {
+          let reviewByUser = this.getReviewByUser();
+          this.reviewForm.get("comment").setValue(reviewByUser.comment);
+          this.score = reviewByUser.rating;
+        }
+      })
+  }
+
+  userAlreadyReviewed() {
+    return this.getReviewByUser() !== undefined;
+  }
+
+  private getReviewByUser(): Review {
+    return this.existingReviews.filter(review => review.rater === "NIELSJ")[0];
+  }
+
+  getWriteReviewTitle() {
+    return this.userAlreadyReviewed() ? "Edit your review" : "Write a review";
+  }
+
+  getSubmitReviewText() {
+    return this.userAlreadyReviewed() ? "Update review" : "Submit review";
   }
 }

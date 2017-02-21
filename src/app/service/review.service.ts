@@ -18,6 +18,10 @@ export class ReviewService {
     return this.http.post(`${IntrstingService.baseUrl}/${this.schemaName}.json`, JSON.stringify(review));
   }
 
+  updateReview(existingReview: Review, reviewId: string): Observable<Response> {
+    return this.http.patch(`${IntrstingService.baseUrl}/${this.schemaName}/${reviewId}.json`, JSON.stringify(existingReview));
+  }
+
   getReviewsForIntrsthing(intrsthingId: string): Observable<Review[]> {
     return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}.json`)
       .map(response => {
@@ -45,6 +49,5 @@ export class ReviewService {
     }
     return mappedResults;
   }
-
 
 }
