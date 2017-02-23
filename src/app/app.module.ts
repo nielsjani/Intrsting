@@ -1,6 +1,6 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
+import {NgModule, ErrorHandler} from '@angular/core';
+import {IonicApp, IonicModule, IonicErrorHandler, Events} from 'ionic-angular';
+import {MyApp} from './app.component';
 import {SearchPage} from "../pages/search/search";
 import {AddNewPage} from "../pages/add-new/add-new";
 import {HttpModule} from "@angular/http";
@@ -12,6 +12,10 @@ import {IntrstingTypesComponent} from "./components/intrsting-types/intrsting-ty
 import {ButtonInputToggleComponent} from "./components/button-input-toggle/button-input-toggle.component";
 import {ReviewService} from "./service/review.service";
 import {ReviewComponent} from "./components/review/review.component";
+import {UserService} from "./service/user.service";
+import {LoginPage} from "../pages/login/login";
+import { Storage } from '@ionic/storage';
+import {RegisterUserPage} from "../pages/register-user/register-user";
 
 @NgModule({
   declarations: [
@@ -19,6 +23,8 @@ import {ReviewComponent} from "./components/review/review.component";
     SearchPage,
     AddNewPage,
     IntrstingDetailPage,
+    LoginPage,
+    RegisterUserPage,
     NotEmptyValidator,
     RequiredIfValidator,
     IntrstingTypesComponent,
@@ -33,8 +39,21 @@ import {ReviewComponent} from "./components/review/review.component";
     MyApp,
     SearchPage,
     AddNewPage,
-    IntrstingDetailPage
+    IntrstingDetailPage,
+    LoginPage,
+    RegisterUserPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, HttpModule, IntrstingService, ReviewService]
+  providers: [{
+    provide: ErrorHandler,
+    useClass: IonicErrorHandler
+  },
+    HttpModule,
+    IntrstingService,
+    ReviewService,
+    UserService,
+    Storage,
+    Events
+  ]
 })
-export class AppModule {}
+export class AppModule {
+}

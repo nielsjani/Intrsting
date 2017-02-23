@@ -1,5 +1,4 @@
-import {Input, Component, SimpleChange, Output, EventEmitter} from "@angular/core";
-import {IntrstingtypesMapper} from "../../class/intrstingtypes-mapper.class";
+import {Input, Component, Output, EventEmitter} from "@angular/core";
 
 @Component({
   selector: 'button-input-toggle',

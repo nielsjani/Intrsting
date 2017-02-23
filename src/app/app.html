@@ -6,10 +6,14 @@
   </ion-header>
 
   <ion-content>
-    <ion-list>
+    <ion-list *ngIf="loggedIn()">
       <button ion-item menuClose (click)="goHome()">
         <ion-icon name="home"></ion-icon>
         Home
+      </button>
+      <button ion-item menuClose (click)="logOut()">
+        <ion-icon name="exit"></ion-icon>
+        Log out
       </button>
     </ion-list>
   </ion-content>

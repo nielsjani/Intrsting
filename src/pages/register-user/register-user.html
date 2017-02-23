@@ -1,0 +1,24 @@
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <h2>Create new account</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="createAccountForm" (ngSubmit)="submitForm()">
+        <ion-item>
+          <ion-label color="primary">Username</ion-label>
+          <ion-input type="text" formControlName="username" ></ion-input>
+        </ion-item>
+        <p *ngIf="createAccountForm.controls['username'].errors?.notEmpty && !createAccountForm.controls['username'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+        <ion-item>
+          <ion-label color="primary">Password</ion-label>
+          <ion-input type="password" formControlName="password" ></ion-input>
+        </ion-item>
+        <p *ngIf="createAccountForm.controls['password'].errors?.notEmpty && !createAccountForm.controls['password'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+        <button ion-button type="submit" [disabled]="!createAccountForm.valid">Create account</button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

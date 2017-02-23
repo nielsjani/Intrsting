@@ -1,0 +1,31 @@
+<ion-header>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <h2>Login</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+        <ion-item>
+          <ion-label color="primary">Username</ion-label>
+          <ion-input type="text" formControlName="username" ></ion-input>
+        </ion-item>
+        <p *ngIf="loginForm.controls['username'].errors?.notEmpty && !loginForm.controls['username'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+        <ion-item>
+          <ion-label color="primary">Password</ion-label>
+          <ion-input type="password" formControlName="password" ></ion-input>
+        </ion-item>
+        <p *ngIf="loginForm.controls['password'].errors?.notEmpty && !loginForm.controls['password'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+        <p *ngIf="illegalUserPasswordCombination" style="padding-left: 10%;color:red">Username/Password combination is incorrect</p>
+
+        <button ion-button type="submit" [disabled]="!loginForm.valid">Log in</button>
+      </form>
+
+      <a (click)="goToRegisterPage()">Create new account</a>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
