@@ -14,7 +14,6 @@ export class MyApp {
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any}>;
   private isLoggedIn: boolean;
 
   constructor(public platform: Platform, private userService: UserService, private events: Events) {
@@ -28,10 +27,13 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
       this.checkLoggedIn();
-      this.events.subscribe("user:loggedout", () => this.rootPage= LoginPage);
+      this.events.subscribe("user:loggedout", () => {
+        this.rootPage= LoginPage;
+        this.checkLoggedIn();
+      });
       this.events.subscribe("user:loggedin", () => {
         this.rootPage= SearchPage;
-        this.goHome();
+        this.checkLoggedIn();
       });
     });
   }
@@ -47,7 +49,7 @@ export class MyApp {
   }
 
   goHome() {
-    this.nav.setRoot(SearchPage);
+    this.nav.setRoot(this.rootPage);
   }
 
   loggedIn(): boolean {
@@ -56,6 +58,5 @@ export class MyApp {
 
   logOut() {
     this.userService.logOut();
-    this.nav.setRoot(LoginPage);
   }
 }

@@ -31,7 +31,6 @@ export class LoginPage {
         this.illegalUserPasswordCombination = !doesExist;
         if(doesExist === true){
           this.userService.logIn(this.loginForm.get("username").value);
-          this.navCtrl.push(SearchPage);
         }
       });
   }

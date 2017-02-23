@@ -16,6 +16,7 @@
           <ion-input type="password" formControlName="password" ></ion-input>
         </ion-item>
         <p *ngIf="createAccountForm.controls['password'].errors?.notEmpty && !createAccountForm.controls['password'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+        <p *ngIf="usernameUnavailable" style="padding-left: 10%;color:red">Sorry, this username is already in use. Maybe you could try 'ButtsexLover69' instead?</p>
 
         <button ion-button type="submit" [disabled]="!createAccountForm.valid">Create account</button>
       </form>

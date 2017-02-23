@@ -3,40 +3,33 @@ import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {User} from "../class/user.class";
 import {IntrstingService} from "./intrsting.service";
-import { Storage } from '@ionic/storage';
+import {Storage} from '@ionic/storage';
 import {Events} from "ionic-angular";
 
 @Injectable()
 export class UserService {
 
-  // TODO: save loggedIn user in local storage
-  // TODO: login / register screen
-  // TODO: hash passwords
   private schemaName: string = "users";
 
   constructor(private http: Http, private storage: Storage, private events: Events) {
   }
 
-  createUser(user: User): Observable<User> {
+  createUser(user: User): Observable<string> {
     user.password = btoa(user.password);
     return this.http.post(`${IntrstingService.baseUrl}/${this.schemaName}.json`, JSON.stringify(user))
-      .map(user => user.json());
+      .map(createdId => createdId.json().name);
   }
 
   isLoggedIn(): Promise<boolean> {
-    return this.storage.get("loggedInUser").then(value => value);
+    return this.storage.get("loggedInUser").then(value => value ? true : false);
   }
 
   logOut() {
-    //TODO: send event thats caught in app.component so the root page is changed
-    this.storage.remove("loggedInUser");
-    this.events.publish('user:loggedout');
+    this.storage.remove("loggedInUser").then(() => this.events.publish('user:loggedout'));
   }
 
   logIn(username: string) {
-    //TODO: send event thats caught in app.component so the root page is changed
-    this.storage.set("loggedInUser", username);
-    this.events.publish('user:loggedin');
+    this.storage.set("loggedInUser", username).then(() => this.events.publish('user:loggedin'));
   }
 
   doesUserExist(usernameAndPlainStringPassword): Observable<boolean> {
@@ -63,5 +56,16 @@ export class UserService {
 
   private getAllUsers(): Observable<Response> {
     return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}.json`);
+  }
+
+  getUserById(id: string): Observable<User> {
+    return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}/${id}.json`)
+      .map(response => response.json());
+  }
+
+  isUsernameAvailable(usernameToCreate: string): Observable<boolean> {
+    return this.getAllUsers()
+      .map(users => this.mapToUsers(users.json()).some(user => user.username === usernameToCreate))
+      .map(bool => !bool);
   }
 }
