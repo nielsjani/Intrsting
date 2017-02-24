@@ -16,6 +16,8 @@ import {UserService} from "./service/user.service";
 import {LoginPage} from "../pages/login/login";
 import { Storage } from '@ionic/storage';
 import {RegisterUserPage} from "../pages/register-user/register-user";
+import {TagComponent} from "./components/tag/tag.component";
+import {TagService} from "./service/tag.service";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {RegisterUserPage} from "../pages/register-user/register-user";
     RequiredIfValidator,
     IntrstingTypesComponent,
     ButtonInputToggleComponent,
-    ReviewComponent
+    ReviewComponent,
+    TagComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -51,6 +54,7 @@ import {RegisterUserPage} from "../pages/register-user/register-user";
     IntrstingService,
     ReviewService,
     UserService,
+    TagService,
     Storage,
     Events
   ]

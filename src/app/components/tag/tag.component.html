@@ -1,0 +1,24 @@
+<ion-card>
+  <ion-card-title>Tags</ion-card-title>
+  <ion-card-content>
+    <ion-row wrap>
+      <ion-col width-100 *ngFor="let existingTag of existingTags">
+        <ion-badge>{{existingTag.name}}</ion-badge>
+      </ion-col>
+
+      <ion-col width-100 (click)="addTag()" *ngIf="!addingTag">
+        <ion-badge>+</ion-badge>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="addTagForm" (ngSubmit)="submitForm()" *ngIf="addingTag">
+      <ion-item>
+        <ion-label color="primary">Tagname</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <p *ngIf="addTagForm.controls['name'].errors?.notEmpty && !addTagForm.controls['name'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+      <button ion-button type="submit" [disabled]="!addTagForm.valid">Add tag</button>
+    </form>
+  </ion-card-content>
+</ion-card>

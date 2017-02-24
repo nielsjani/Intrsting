@@ -3,7 +3,7 @@ import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {Review} from "../class/review.class";
 import {IntrstingService} from "./intrsting.service";
-import 'rxjs/Rx';
+import "rxjs/Rx";
 
 
 @Injectable()

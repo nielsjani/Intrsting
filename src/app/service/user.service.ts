@@ -68,4 +68,8 @@ export class UserService {
       .map(users => this.mapToUsers(users.json()).some(user => user.username === usernameToCreate))
       .map(bool => !bool);
   }
+
+  getLoggedInUser(): Promise<string> {
+    return this.storage.get("loggedInUser");
+  }
 }

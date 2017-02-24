@@ -14,6 +14,7 @@ export class MyApp {
 
   rootPage: any = LoginPage;
 
+  private username = "";
   private isLoggedIn: boolean;
 
   constructor(public platform: Platform, private userService: UserService, private events: Events) {
@@ -32,7 +33,6 @@ export class MyApp {
         this.checkLoggedIn();
       });
       this.events.subscribe("user:loggedin", () => {
-        this.rootPage= SearchPage;
         this.checkLoggedIn();
       });
     });
@@ -43,7 +43,12 @@ export class MyApp {
       .then(value => {
         this.isLoggedIn = value;
         if(this.isLoggedIn) {
-          this.goHome();
+          this.rootPage= SearchPage;
+          this.userService.getLoggedInUser()
+            .then(user => {
+              this.username = user;
+              this.goHome();
+            });
         }
       });
   }
@@ -58,5 +63,9 @@ export class MyApp {
 
   logOut() {
     this.userService.logOut();
+  }
+
+  getUsername() {
+    return this.userService.getLoggedInUser();
   }
 }

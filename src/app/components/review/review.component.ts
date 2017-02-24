@@ -16,6 +16,8 @@ export class ReviewComponent {
   private reviewForm;
   private existingReviews: Review[] = [];
 
+  //TODO: collapse + fold out button
+  //TODO: average score
   constructor(private formBuilder: FormBuilder, private reviewService: ReviewService) {
     this.reviewForm = formBuilder.group({
       comment: new FormControl("")
