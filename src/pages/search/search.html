@@ -20,6 +20,7 @@
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+
         <button-input-toggle [toggleButtonText]="getNameButtonText()" [closeListener]="!editingName" (startedEditing)="toggleNameEdit()">
           <ion-row>
             <ion-col width-80>
@@ -35,6 +36,12 @@
         </button-input-toggle>
 
         <intrsting-types [form]="searchForm" [fcn]="'type'"></intrsting-types>
+
+        <button type="button" ion-button outline full (click)="openTagSearchModal()">
+          {{getTagButtonText()}}
+        </button>
+
+
         <button ion-button full>
           <ion-row>
             <ion-col width-80>Search</ion-col>

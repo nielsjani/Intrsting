@@ -1,10 +1,12 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, ModalController} from "ionic-angular";
 import {AddNewPage} from "../add-new/add-new";
 import {IntrstingService} from "../../app/service/intrsting.service";
 import {IntrstingDetailPage} from "../intrsting-detail/intrsting-detail";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {IntrstingtypesMapper} from "../../app/class/intrstingtypes-mapper.class";
+import {TagSearchComponent} from "../../app/components/tagsearch/tagsearch.component";
+import {Tag} from "../../app/class/tag.class";
 
 @Component({
   selector: 'page-search',
@@ -16,17 +18,18 @@ export class SearchPage {
   searchForm;
   editingName: boolean = false;
   searchedAtLeastOnce: boolean = false;
+  private filterTag: Tag;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private intrstingService: IntrstingService, private formBuilder: FormBuilder) {
+  constructor(private navCtrl: NavController,
+              private navParams: NavParams,
+              private intrstingService: IntrstingService,
+              private formBuilder: FormBuilder,
+              private modalCtrl: ModalController) {
     this.searchForm = this.formBuilder.group({
         name: new FormControl(""),
         type: new FormControl(""),
       }
     );
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchPage');
   }
 
   private mapToIntrsthings(rawIntrsthingCollection: any): any[] {
@@ -73,6 +76,10 @@ export class SearchPage {
     return nameValue ? "With name: " + nameValue : "Whose name contains...";
   }
 
+  getTagButtonText() {
+    return this.filterTag ? "With tag: " + this.filterTag.name : "Who has tag...";
+  }
+
   submitSearchForm() {
     this.intrstingService.search()
       .subscribe(response => {
@@ -91,6 +98,9 @@ export class SearchPage {
       .filter(item => {
         let typeFilter = this.searchForm.controls["type"].value;
         return !this.isFilteringOn(typeFilter) ? true : item.type.toLowerCase() === typeFilter.toLowerCase();
+      })
+      .filter(item => {
+        return !this.filterTag ? true : item.tags && item.tags.indexOf(this.filterTag.name) !== -1;
       });
   }
 
@@ -98,4 +108,11 @@ export class SearchPage {
     return value !== undefined && value !== null && value.trim() !== "";
   }
 
+  openTagSearchModal() {
+    let profileModal = this.modalCtrl.create(TagSearchComponent);
+    profileModal.onDidDismiss(chosenTag => {
+      this.filterTag = chosenTag;
+    });
+    profileModal.present();
+  }
 }

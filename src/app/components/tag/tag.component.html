@@ -3,7 +3,7 @@
   <ion-card-content>
     <ion-row wrap>
       <ion-col width-100 *ngFor="let existingTag of existingTags">
-        <ion-badge>{{existingTag.name}}</ion-badge>
+        <ion-badge>{{existingTag}}</ion-badge>
       </ion-col>
 
       <ion-col width-100 (click)="addTag()" *ngIf="!addingTag">

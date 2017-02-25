@@ -5,5 +5,6 @@ export class Intrsting {
   url: string;
   description: string; //optional
   author: string; //optional
+  tags: string[];
 
 }

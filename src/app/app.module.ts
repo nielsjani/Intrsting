@@ -18,6 +18,7 @@ import { Storage } from '@ionic/storage';
 import {RegisterUserPage} from "../pages/register-user/register-user";
 import {TagComponent} from "./components/tag/tag.component";
 import {TagService} from "./service/tag.service";
+import {TagSearchComponent} from "./components/tagsearch/tagsearch.component";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {TagService} from "./service/tag.service";
     IntrstingTypesComponent,
     ButtonInputToggleComponent,
     ReviewComponent,
-    TagComponent
+    TagComponent,
+    TagSearchComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -44,7 +46,8 @@ import {TagService} from "./service/tag.service";
     AddNewPage,
     IntrstingDetailPage,
     LoginPage,
-    RegisterUserPage
+    RegisterUserPage,
+    TagSearchComponent
   ],
   providers: [{
     provide: ErrorHandler,

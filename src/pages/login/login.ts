@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, NavParams} from "ionic-angular";
 import {UserService} from "../../app/service/user.service";
 import {FormBuilder, FormControl} from "@angular/forms";
-import {NotEmptyValidator, notEmpty} from "../../app/validator/NotEmptyValidator";
+import {notEmpty} from "../../app/validator/NotEmptyValidator";
 import {RegisterUserPage} from "../register-user/register-user";
-import {SearchPage} from "../search/search";
 
 @Component({
   selector: 'page-login',

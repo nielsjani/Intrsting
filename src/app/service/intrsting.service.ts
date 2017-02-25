@@ -23,4 +23,14 @@ export class IntrstingService {
   search(): Observable<Response> {
     return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}.json`);
   }
+
+  updateTags(intrsthing: Intrsting, tagToAdd: string): Observable<Intrsting> {
+    if(!intrsthing.tags){
+      intrsthing.tags = [tagToAdd];
+    } else {
+      intrsthing.tags.push(tagToAdd);
+    }
+    return this.http.put(`${IntrstingService.baseUrl}/${this.schemaName}/${intrsthing.id}/tags.json`, JSON.stringify(intrsthing.tags))
+      .map(response => response.json());
+  }
 }

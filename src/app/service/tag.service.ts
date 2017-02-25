@@ -14,25 +14,30 @@ export class TagService {
   }
 
   createTag(tag: Tag): Observable<Tag> {
+    return this.getAllTags()
+      .map(tags => {
+        if (this.isTagUnique(tags, tag)) {
+          return this.addTag(tag);
+        }
+        return Observable.of(tag);
+      })
+      .flatMap(val => val);
+  }
+
+  private isTagUnique(tags, tag: Tag) {
+    return tags.map(tagToMap => tagToMap.name).indexOf(tag.name) === -1;
+  }
+
+  private addTag(tag: Tag): Observable<Tag> {
     return this.http.post(`${IntrstingService.baseUrl}/${this.schemaName}.json`, JSON.stringify(tag))
       .map(response => response.json().name);
   }
 
-  getTagsFor(intrstingId: string): Observable<Tag[]> {
+  getAllTags(): Observable<Tag[]> {
     return this.http.get(`${IntrstingService.baseUrl}/${this.schemaName}.json`)
-      .map(response => {
-        let tagsWithId = response.json();
-        return this.mapAndFilter(tagsWithId, intrstingId);
-      })
+      .map(response => response.json())
+      .map(tagsWithId => this.mapToTags(tagsWithId));
   }
-
-  private mapAndFilter(objectWithKeys: any, intrsthingIdToFilter: string): Tag[] {
-    return this.mapToTags(objectWithKeys)
-      .filter(item => {
-        return item.intrsthingId === intrsthingIdToFilter;
-      });
-  }
-
 
   private mapToTags(rawTagCollection: any): Tag[] {
     let mappedResults: Tag[] = [];

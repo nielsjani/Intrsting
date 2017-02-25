@@ -1,0 +1,15 @@
+<ion-content>
+  <ion-row>
+    <ion-col width-75>
+      <ion-searchbar placeholder="Search for tag" (ionInput)="getTags($event)" [autocomplete]="on"></ion-searchbar>
+    </ion-col>
+    <ion-col width-25>
+      <button ion-button (click)="back()">Back</button>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-item *ngFor="let filteredTag of filteredTags" (click)="selectTag(filteredTag)">
+      {{ filteredTag.name }}
+    </ion-item>
+  </ion-list>
+</ion-content>
