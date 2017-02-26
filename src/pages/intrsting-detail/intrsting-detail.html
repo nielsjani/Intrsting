@@ -8,6 +8,13 @@
 
 
 <ion-content padding>
+
+  <ion-fab top right edge>
+    <button ion-fab [color]="getFavoriteButtonColor()" (click)="toggleFavorite()">
+      <ion-icon name="heart"></ion-icon>
+    </button>
+  </ion-fab>
+
   <ion-card *ngIf="intrsthing">
     <ion-item>
       <ion-row>

@@ -19,6 +19,7 @@ import {RegisterUserPage} from "../pages/register-user/register-user";
 import {TagComponent} from "./components/tag/tag.component";
 import {TagService} from "./service/tag.service";
 import {TagSearchComponent} from "./components/tagsearch/tagsearch.component";
+import {FavoriteService} from "./service/favorite.service";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {TagSearchComponent} from "./components/tagsearch/tagsearch.component";
     ReviewService,
     UserService,
     TagService,
+    FavoriteService,
     Storage,
     Events
   ]

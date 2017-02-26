@@ -41,6 +41,13 @@
           {{getTagButtonText()}}
         </button>
 
+        <ion-item>
+          <ion-label>Only include my
+            <ion-icon name="heart" color="danger"></ion-icon>
+          </ion-label>
+          <ion-checkbox (click)="toggleOnlyIncludeFavs()"></ion-checkbox>
+        </ion-item>
+
 
         <button ion-button full>
           <ion-row>
@@ -75,6 +82,8 @@
         </ion-card-header>
         <ion-card-content *ngIf="result.description">
           <p>{{descriptionCutOff(result.description)}}</p>
+          <!--TODO: maybe show (some) tags?-->
+          <!--TODO: maybe show average review score?-->
         </ion-card-content>
       </ion-card>
     </ion-item>

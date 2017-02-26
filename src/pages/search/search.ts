@@ -7,6 +7,8 @@ import {FormBuilder, FormControl} from "@angular/forms";
 import {IntrstingtypesMapper} from "../../app/class/intrstingtypes-mapper.class";
 import {TagSearchComponent} from "../../app/components/tagsearch/tagsearch.component";
 import {Tag} from "../../app/class/tag.class";
+import {FavoriteService} from "../../app/service/favorite.service";
+import {UserService} from "../../app/service/user.service";
 
 @Component({
   selector: 'page-search',
@@ -19,10 +21,14 @@ export class SearchPage {
   editingName: boolean = false;
   searchedAtLeastOnce: boolean = false;
   private filterTag: Tag;
+  favoritesIntrsthingIds: string[] = [];
+  private onlyIncludeFavs = false;
 
   constructor(private navCtrl: NavController,
               private navParams: NavParams,
               private intrstingService: IntrstingService,
+              private favoriteService: FavoriteService,
+              private userService: UserService,
               private formBuilder: FormBuilder,
               private modalCtrl: ModalController) {
     this.searchForm = this.formBuilder.group({
@@ -30,6 +36,13 @@ export class SearchPage {
         type: new FormControl(""),
       }
     );
+  }
+
+  ionViewDidLoad() {
+    this.userService.getLoggedInUser()
+      .then(username => this.favoriteService.getFavoritesForUser(username)
+        .subscribe(favorites => this.favoritesIntrsthingIds = favorites.map(fav => fav.intrsthingId)))
+
   }
 
   private mapToIntrsthings(rawIntrsthingCollection: any): any[] {
@@ -101,6 +114,9 @@ export class SearchPage {
       })
       .filter(item => {
         return !this.filterTag ? true : item.tags && item.tags.indexOf(this.filterTag.name) !== -1;
+      })
+      .filter(item => {
+        return !this.onlyIncludeFavs ? true : this.favoritesIntrsthingIds.some(favIntrsthingId => favIntrsthingId === item.id);
       });
   }
 
@@ -114,5 +130,9 @@ export class SearchPage {
       this.filterTag = chosenTag;
     });
     profileModal.present();
+  }
+
+  toggleOnlyIncludeFavs() {
+    this.onlyIncludeFavs = ! this.onlyIncludeFavs;
   }
 }
