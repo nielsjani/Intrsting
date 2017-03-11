@@ -20,6 +20,7 @@ import {TagComponent} from "./components/tag/tag.component";
 import {TagService} from "./service/tag.service";
 import {TagSearchComponent} from "./components/tagsearch/tagsearch.component";
 import {FavoriteService} from "./service/favorite.service";
+import {TodoListPage} from "../pages/todo-list/todo-list";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {FavoriteService} from "./service/favorite.service";
     IntrstingDetailPage,
     LoginPage,
     RegisterUserPage,
+    TodoListPage,
     NotEmptyValidator,
     RequiredIfValidator,
     IntrstingTypesComponent,
@@ -48,7 +50,8 @@ import {FavoriteService} from "./service/favorite.service";
     IntrstingDetailPage,
     LoginPage,
     RegisterUserPage,
-    TagSearchComponent
+    TagSearchComponent,
+    TodoListPage
   ],
   providers: [{
     provide: ErrorHandler,

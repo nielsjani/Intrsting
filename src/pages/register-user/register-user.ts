@@ -36,7 +36,6 @@ export class RegisterUserPage {
       .subscribe(createdId => {
         this.userService.getUserById(createdId)
           .subscribe(userCreated => {
-            console.log(userCreated)
             this.userService.logIn(userCreated.username);
           });
       });

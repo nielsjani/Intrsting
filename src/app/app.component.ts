@@ -4,6 +4,7 @@ import {StatusBar, Splashscreen} from "ionic-native";
 import {SearchPage} from "../pages/search/search";
 import {UserService} from "./service/user.service";
 import {LoginPage} from "../pages/login/login";
+import {TodoListPage} from "../pages/todo-list/todo-list";
 
 
 @Component({
@@ -16,6 +17,7 @@ export class MyApp {
 
   private username = "";
   private isLoggedIn: boolean;
+  private isUserUnlocked: boolean;
 
   constructor(public platform: Platform, private userService: UserService, private events: Events) {
     this.initializeApp();
@@ -29,11 +31,14 @@ export class MyApp {
       Splashscreen.hide();
       this.checkLoggedIn();
       this.events.subscribe("user:loggedout", () => {
-        this.rootPage= LoginPage;
+        this.rootPage = LoginPage;
         this.checkLoggedIn();
       });
       this.events.subscribe("user:loggedin", () => {
         this.checkLoggedIn();
+      });
+      this.events.subscribe("user:unlocked", () => {
+        this.setUnlocked();
       });
     });
   }
@@ -42,14 +47,21 @@ export class MyApp {
     this.userService.isLoggedIn()
       .then(value => {
         this.isLoggedIn = value;
-        if(this.isLoggedIn) {
-          this.rootPage= SearchPage;
-          this.userService.getLoggedInUser()
-            .then(user => {
-              this.username = user;
-              this.goHome();
-            });
+        if (this.isLoggedIn) {
+          this.rootPage = SearchPage;
+          this.checkUnlockedAndLogIn();
         }
+      });
+  }
+
+  private checkUnlockedAndLogIn() {
+    this.checkUnlocked()
+      .then(() => {
+        this.userService.getLoggedInUser()
+          .then(user => {
+            this.username = user;
+            this.goHome();
+          });
       });
   }
 
@@ -65,7 +77,29 @@ export class MyApp {
     this.userService.logOut();
   }
 
+  checkUnlocked() {
+    return this.userService.isUnlocked()
+      .then(value => {
+        this.isUserUnlocked = value
+      });
+  }
+
+  setUnlocked() {
+    return this.userService.setUnlocked()
+      .then(value => {
+        this.isUserUnlocked = value
+      });
+  }
+
+  isUnlocked() {
+    return this.isUserUnlocked;
+  }
+
   getUsername() {
     return this.userService.getLoggedInUser();
+  }
+
+  goToDo() {
+    this.nav.push(TodoListPage);
   }
 }

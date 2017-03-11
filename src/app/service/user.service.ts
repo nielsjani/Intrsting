@@ -3,7 +3,7 @@ import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {User} from "../class/user.class";
 import {IntrstingService} from "./intrsting.service";
-import {Storage} from '@ionic/storage';
+import {Storage} from "@ionic/storage";
 import {Events} from "ionic-angular";
 
 @Injectable()
@@ -24,12 +24,29 @@ export class UserService {
     return this.storage.get("loggedInUser").then(value => value ? true : false);
   }
 
+  isUnlocked() {
+    return this.storage.get("isUnlocked").then(value => value && value !== false ? true : false);
+  }
+
+  setUnlocked(): Promise<boolean> {
+    return this.storage.set("isUnlocked", true)
+  }
+
   logOut() {
-    this.storage.remove("loggedInUser").then(() => this.events.publish('user:loggedout'));
+    this.storage.clear().then(() => this.events.publish('user:loggedout'));
   }
 
   logIn(username: string) {
-    this.storage.set("loggedInUser", username).then(() => this.events.publish('user:loggedin'));
+    this.storage.set("loggedInUser", username)
+      .then(() => this.setIsUnlocked(username, () => this.events.publish('user:loggedin')));
+  }
+
+  private setIsUnlocked(username, callback: ()=>any) {
+    this.getUserByUsername(username)
+      .subscribe(userToUnlock => {
+        this.storage.set("isUnlocked", userToUnlock.unlocked)
+          .then(() => callback());
+      })
   }
 
   doesUserExist(usernameAndPlainStringPassword): Observable<boolean> {
@@ -48,6 +65,7 @@ export class UserService {
     for (let userId in rawUserCollection) {
       if (rawUserCollection.hasOwnProperty(userId)) {
         let user: User = rawUserCollection[userId];
+        user.id = userId;
         mappedResults.push(user);
       }
     }
@@ -71,5 +89,22 @@ export class UserService {
 
   getLoggedInUser(): Promise<string> {
     return this.storage.get("loggedInUser");
+  }
+
+  unlockTodoPage(): Promise<void> {
+    return this.getLoggedInUser()
+      .then(usernameFromStorage => {
+        return this.getUserByUsername(usernameFromStorage)
+          .subscribe(userToUnlock => {
+            userToUnlock.unlocked = true;
+            return this.http.patch(`${IntrstingService.baseUrl}/${this.schemaName}/${userToUnlock.id}.json`, JSON.stringify(userToUnlock))
+              .subscribe(patchedUser => "");
+          });
+      });
+  }
+
+  private getUserByUsername(usernameFromStorage) {
+    return this.getAllUsers()
+      .map(users => this.mapToUsers(users.json()).filter(user => user.username === usernameFromStorage)[0]);
   }
 }

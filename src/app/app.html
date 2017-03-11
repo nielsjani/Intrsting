@@ -12,6 +12,10 @@
         <ion-icon name="home"></ion-icon>
         Home
       </button>
+      <button ion-item menuClose (click)="goToDo()" *ngIf=isUnlocked()>
+        <ion-icon name="unlock"></ion-icon>
+        ???
+      </button>
       <button ion-item menuClose (click)="logOut()">
         <ion-icon name="exit"></ion-icon>
         Log out
