@@ -1,12 +1,103 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Todo list</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding  fullscreen="true">
+    <ion-card *ngIf="userTaskGoals.length === 0">
+        <ion-card-content>
+          Awesome, you discovered a secret feature ("How many more are there?", you're probably wondering.
+          Well, better put on your sleuth hat, Sherlock).
+          This feature aims to help you improve your life.
+          <ol>
+            <li>Create some tasks</li>
+            <li>Set a goal</li>
+            <li>Complete a task to gain points towards the goal</li>
+            <li>Achieve the goal, feel proud and award yourself!</li>
+          </ol>
+        </ion-card-content>
+    </ion-card>
+
+  <ion-card *ngIf="userTaskGoals.length > 0 && !currentTaskGoal" >
+    <ion-card-content>
+      You seem to have no active goal. Congrats on achieving the previous one! Why don't you create a new, challenging one?
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="currentTaskGoal && currentTaskGoal.achieved">
+    <ion-card-content>
+      Congrats, you've achieved your goal! Why don't you make a new list (and perhaps bump up the difficulty to achieve the goal a bit)?
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="currentTaskGoal">
+    <ion-card-header>
+      Number of points achieved: {{getNumberOfAchievedPointsForCurrentTaskGoal()}}/{{currentTaskGoal.numberOfPointsToAchieve}}
+    </ion-card-header>
+    <ion-card-content *ngIf="!currentTaskGoal.achieved">
+      Tasks for this list:
+      <ion-list>
+        <ion-item *ngFor="let task of currentTaskGoal.tasks">
+          <ion-label class="input-label">{{task.name}}</ion-label>
+          <ion-checkbox color="dark" (click)="achievedTask(task)"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+    <button ion-button *ngIf="tasksAchieved.length > 0" (click)="confirmTasksDoneSelection()">Confirm completion</button>
+  </ion-card>
+
+  <button ion-button (click)="startAddingTaskToList()" *ngIf="!addingTaskToExistingList && currentTaskGoal && !currentTaskGoal.achieved">
+    Add task to list
+  </button>
+
+  <button ion-button (click)="startCreatingTask()" *ngIf="!creatingTask && (!currentTaskGoal || currentTaskGoal.achieved)">
+    Create new list
+  </button>
+
+  <form [formGroup]="addTaskForm" (ngSubmit)="submitForm()" *ngIf="creatingTask">
+    <ion-item>
+      <ion-label color="primary">Task name</ion-label>
+      <ion-input type="text" formControlName="taskname" placeholder="Run 15 miles in under 2 hours" (focus)="openModalIfHasExistingTasks()"></ion-input>
+    </ion-item>
+    <p *ngIf="addTaskForm.controls['taskname'].errors?.notEmpty && !addTaskForm.controls['taskname'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+    <ion-item>
+      <ion-label color="primary">Number of points needed to achieve target</ion-label>
+      <ion-input type="text" formControlName="numberOfPointsTarget"></ion-input>
+    </ion-item>
+    <p *ngIf="addTaskForm.controls['numberOfPointsTarget'].errors?.notEmpty && !addTaskForm.controls['numberOfPointsTarget'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+    <p *ngIf="addTaskForm.controls['numberOfPointsTarget'].errors?.wholePositiveNumber && !addTaskForm.controls['numberOfPointsTarget'].pristine" style="padding-left: 10%;color:red">This has to be a number >0</p>
+
+    <button ion-button type="submit" [disabled]="!addTaskForm.valid">Submit</button>
+  </form>
+
+  <form [formGroup]="addTaskToListForm" (ngSubmit)="submitAddTaskToListForm()" *ngIf="addingTaskToExistingList">
+    <ion-item>
+      <ion-label color="primary">Task name</ion-label>
+      <ion-input type="text" formControlName="taskname" placeholder="Run 15 miles in under 2 hours"></ion-input>
+    </ion-item>
+    <p *ngIf="addTaskToListForm.controls['taskname'].errors?.notEmpty && !addTaskToListForm.controls['taskname'].pristine" style="padding-left: 10%;color:red">This field is required</p>
+
+    <button ion-button type="submit" [disabled]="!addTaskToListForm.valid">Submit</button>
+  </form>
+
+  <ion-card *ngIf="currentTaskGoal && getCompletedTasks().length > 0">
+    <ion-card-header>
+      <ion-row>
+        <ion-col width-60>Taskname</ion-col>
+        <ion-col width-40># times completed</ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row *ngFor="let task of getCompletedTasks()">
+        <ion-col width-60>{{task.name}}</ion-col>
+        <ion-col width-40>{{task.numberOfTimesCompleted}}</ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

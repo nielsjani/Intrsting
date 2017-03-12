@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-row>
+    <ion-col width-60>
+      <ion-searchbar placeholder="Search or create new task"
+                     (ionInput)="getTasknames($event)"
+                     [autocomplete]="on"
+                     [ngModel]="selected">
+      </ion-searchbar>
+    </ion-col>
+    <ion-col width-20>
+      <button ion-button (click)="ok()">Ok</button>
+    </ion-col>
+    <ion-col width-20>
+      <button ion-button (click)="back()">Back</button>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-item *ngFor="let filteredName of filteredNames" (click)="selectTaskname(filteredName)">
+      {{filteredName}}
+    </ion-item>
+  </ion-list>
+</ion-content>

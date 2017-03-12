@@ -2,30 +2,27 @@ import {Directive} from "@angular/core";
 import {NG_VALIDATORS, AbstractControl} from "@angular/forms";
 
 @Directive({
-  selector: '[notEmpty][ngModel]', // ? Is this an AND relation?
+  selector: '[wholePositiveNumber][ngModel]', // ? Is this an AND relation?
   providers: [
     {
       provide: NG_VALIDATORS,
-      useValue: notEmpty,
+      useValue: wholePositiveNumber,
       multi: true // http://blog.thoughtram.io/angular2/2015/11/23/multi-providers-in-angular-2.html
     }
   ]
 })
-export class NotEmptyValidator {
+export class WholePositiveNumberValidator {
 
   constructor() {
   }
 
 }
 
-export function notEmpty(c:AbstractControl) {
-  let val = c.value;
-  if(val && Number.isInteger(val)){
-    val+="";
-  }
-  if (!val || val.trim() === "") {
+export function wholePositiveNumber(c:AbstractControl) {
+  let valAsInt = parseInt(c.value);
+  if (!(!isNaN(valAsInt) && c.value % 1 === 0 && c.value > 0)) {
     return {
-      notEmpty: {
+      wholePositiveNumber: {
         valid: false
       }
     }

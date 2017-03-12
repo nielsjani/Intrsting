@@ -21,6 +21,9 @@ import {TagService} from "./service/tag.service";
 import {TagSearchComponent} from "./components/tagsearch/tagsearch.component";
 import {FavoriteService} from "./service/favorite.service";
 import {TodoListPage} from "../pages/todo-list/todo-list";
+import {WholePositiveNumberValidator} from "./validator/WholePositiveNumberValidator";
+import {TaskService} from "./service/task.service";
+import {TasknameSearchComponent} from "./components/tasknamesearch/tasknamesearch.component";
 
 @NgModule({
   declarations: [
@@ -31,13 +34,17 @@ import {TodoListPage} from "../pages/todo-list/todo-list";
     LoginPage,
     RegisterUserPage,
     TodoListPage,
+
     NotEmptyValidator,
+    WholePositiveNumberValidator,
     RequiredIfValidator,
+
     IntrstingTypesComponent,
     ButtonInputToggleComponent,
     ReviewComponent,
     TagComponent,
-    TagSearchComponent
+    TagSearchComponent,
+    TasknameSearchComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -51,6 +58,7 @@ import {TodoListPage} from "../pages/todo-list/todo-list";
     LoginPage,
     RegisterUserPage,
     TagSearchComponent,
+    TasknameSearchComponent,
     TodoListPage
   ],
   providers: [{
@@ -63,6 +71,7 @@ import {TodoListPage} from "../pages/todo-list/todo-list";
     UserService,
     TagService,
     FavoriteService,
+    TaskService,
     Storage,
     Events
   ]
