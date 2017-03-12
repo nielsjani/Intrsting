@@ -1,11 +1,6 @@
-import {Input, Component} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Component} from "@angular/core";
 import {TagService} from "../../service/tag.service";
-import {notEmpty} from "../../validator/NotEmptyValidator";
 import {Tag} from "../../class/tag.class";
-import {UserService} from "../../service/user.service";
-import {Intrsting} from "../../class/intrsting.class";
-import {IntrstingService} from "../../service/intrsting.service";
 import {ViewController} from "ionic-angular";
 
 @Component({

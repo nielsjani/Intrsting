@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {NavController, NavParams, NavOptions} from "ionic-angular";
+import {NavController, NavParams} from "ionic-angular";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {IntrstingService} from "../../app/service/intrsting.service";
 import {IntrstingDetailPage} from "../intrsting-detail/intrsting-detail";
