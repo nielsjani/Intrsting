@@ -16,3 +16,11 @@ ionic run android (or ios)
 
 Generate page
 ionic g page MyPageName
+
+config.xml
+Data like app title, e-mail address etc
+
+CHange app icon / splash screen
+1. change resources/icon.png and /splash.png to the one you want
+2. ionic resources --icon --splash
+
