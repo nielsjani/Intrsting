@@ -25,6 +25,8 @@ export class TodoListPage {
   private userTaskGoals: TaskGoal[] = [];
   private tasksAchieved: Task[] = [];
 
+  private chosenTasks: string[] = [];
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private formBuilder: FormBuilder,
@@ -32,11 +34,11 @@ export class TodoListPage {
               private userService: UserService,
               private modalCtrl: ModalController) {
     this.addTaskForm = this.formBuilder.group({
-      taskname: new FormControl('', notEmpty),
+      taskname: new FormControl(''),
       numberOfPointsTarget: new FormControl(10, [notEmpty, wholePositiveNumber])
     });
     this.addTaskToListForm = this.formBuilder.group({
-      taskname: new FormControl('', notEmpty),
+      taskname: new FormControl(''),
     });
   }
 
@@ -44,10 +46,10 @@ export class TodoListPage {
     this.userService.getLoggedInUser()
       .then(username =>
         this.taskService.getTaskGoalsForUser(username)
-        .subscribe(taskGoalsForUser => {
-          this.userTaskGoals = taskGoalsForUser;
-          this.findActiveTaskGoal();
-        }))
+          .subscribe(taskGoalsForUser => {
+            this.userTaskGoals = taskGoalsForUser;
+            this.findActiveTaskGoal();
+          }))
   }
 
   startCreatingTask() {
@@ -73,8 +75,8 @@ export class TodoListPage {
   }
 
   submitAddTaskToListForm() {
-    let taskToAdd = this.mapFormToTask(this.addTaskToListForm.controls["taskname"].value);
-    this.currentTaskGoal.tasks.push(taskToAdd);
+    let taskToAdd = this.mapFormToTask([this.addTaskToListForm.controls["taskname"].value]);
+    this.currentTaskGoal.tasks.push(...taskToAdd);
     this.taskService.updateTaskGoal(this.currentTaskGoal)
       .subscribe(updatedTaskGoal => {
         this.currentTaskGoal = updatedTaskGoal;
@@ -83,19 +85,21 @@ export class TodoListPage {
   }
 
   private mapTaskGoal(username): TaskGoal {
-    let task = this.mapFormToTask(this.addTaskForm.controls["taskname"].value);
+    let tasks = this.mapFormToTask(this.chosenTasks);
     let taskGoal: TaskGoal = new TaskGoal();
-    taskGoal.tasks = [task];
+    taskGoal.tasks = tasks;
     taskGoal.owner = username;
     taskGoal.numberOfPointsToAchieve = this.addTaskForm.controls["numberOfPointsTarget"].value;
     return taskGoal;
   }
 
-  private mapFormToTask(taskname: any): Task {
-    let task: Task = new Task();
-    task.name = taskname;
-    task.numberOfTimesCompleted = 0;
-    return task;
+  private mapFormToTask(tasknames: string[]): Task[] {
+    return tasknames.map(taskname => {
+      let task: Task = new Task();
+      task.name = taskname;
+      task.numberOfTimesCompleted = 0;
+      return task;
+    });
   }
 
   private findActiveTaskGoal() {
@@ -103,28 +107,28 @@ export class TodoListPage {
   }
 
   getNumberOfAchievedPointsForCurrentTaskGoal() {
-    if(!this.currentTaskGoal || !this.currentTaskGoal.tasks){
+    if (!this.currentTaskGoal || !this.currentTaskGoal.tasks) {
       return 0;
     }
     return this.currentTaskGoal.tasks.map(task => task.numberOfTimesCompleted)
-      .reduce((element1, element2) => element1+ element2);
+      .reduce((element1, element2) => element1 + element2);
   }
 
   achievedTask(task: Task) {
-    if(this.tasksAchieved.indexOf(task) === -1){
+    if (this.tasksAchieved.indexOf(task) === -1) {
       this.tasksAchieved.push(task);
     } else {
-     this.tasksAchieved.splice(this.tasksAchieved.indexOf(task), 1);
+      this.tasksAchieved.splice(this.tasksAchieved.indexOf(task), 1);
     }
   }
 
   confirmTasksDoneSelection() {
     this.currentTaskGoal.tasks.forEach(task => {
-      if(this.tasksAchieved.indexOf(task) !== -1){
+      if (this.tasksAchieved.indexOf(task) !== -1) {
         task.numberOfTimesCompleted++;
       }
     });
-    if(this.getNumberOfAchievedPointsForCurrentTaskGoal() >= this.currentTaskGoal.numberOfPointsToAchieve){
+    if (this.getNumberOfAchievedPointsForCurrentTaskGoal() >= this.currentTaskGoal.numberOfPointsToAchieve) {
       this.currentTaskGoal.achieved = true;
     }
     this.taskService.updateTaskGoal(this.currentTaskGoal)
@@ -135,16 +139,16 @@ export class TodoListPage {
   }
 
   getCompletedTasks() {
-    if(!this.currentTaskGoal || !this.currentTaskGoal.tasks){
+    if (!this.currentTaskGoal || !this.currentTaskGoal.tasks) {
       return [];
     }
     return this.currentTaskGoal.tasks
       .filter(task => task.numberOfTimesCompleted > 0)
-      .sort((t1, t2) => t2.numberOfTimesCompleted-t1.numberOfTimesCompleted)
+      .sort((t1, t2) => t2.numberOfTimesCompleted - t1.numberOfTimesCompleted)
   }
 
   openModalIfHasExistingTasks() {
-    if(this.userTaskGoals.length === 0){
+    if (this.userTaskGoals.length === 0) {
       return;
     } else {
       let uniqueTaskNames = Array.from(new Set(this.userTaskGoals
@@ -155,10 +159,14 @@ export class TodoListPage {
       ));
 
       let tasknameModal = this.modalCtrl.create(TasknameSearchComponent, uniqueTaskNames);
-      tasknameModal.onDidDismiss(chosenName => {
-        this.addTaskForm.controls["taskname"].setValue(chosenName);
+      tasknameModal.onDidDismiss(chosenTasks => {
+        this.chosenTasks.push(...chosenTasks);
       });
       tasknameModal.present();
     }
+  }
+
+  removeChosenTask(chosenTask) {
+    this.chosenTasks.splice(this.chosenTasks.indexOf(chosenTask), 1);
   }
 }
