@@ -1,4 +1,4 @@
-Start a new project
+Start a new project --
 ionic start projectname template(eg: sidemenu) --v2 --ts
 
 Run locally
@@ -11,7 +11,7 @@ ionic upload
 
 
 Install app on device
-<plug-in device that has developer mode enabled>
+<plug-in device that has developer mode enabled + USB debugging option enabled!>
 ionic run android (or ios)
 
 Generate page
